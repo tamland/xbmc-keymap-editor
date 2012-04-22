@@ -8,8 +8,8 @@
 	</requires>
 	<extension point="xbmc.python.script" library="default.py"/>
 	<extension point="xbmc.addon.metadata">
-		<summary>todo</summary>
-		<description>todo</description>
+		<summary></summary>
+		<description></description>
 		<platform>all</platform>
 	</extension>
 </addon>

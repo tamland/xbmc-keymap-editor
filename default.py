@@ -29,7 +29,7 @@ actions = []
 userkeymap = []
 defaultkeymap = []
 gen_file = None
-bg_img = ADDON.getAddonInfo('path') + '/bg.png'
+bg_img = os.path.join(ADDON.getAddonInfo('path'), 'bg.png')
 
 
 class KeyListener(xbmcgui.WindowDialog):
@@ -39,7 +39,7 @@ class KeyListener(xbmcgui.WindowDialog):
     x = self.getWidth()/2 - w/2
     y = self.getHeight()/2 - h/2
     self.addControl(xbmcgui.ControlImage(x, y, w, h, bg_img))
-    self.addControl(xbmcgui.ControlLabel(x, y, w, h, 'Press key', 'font13', '0xFFFF0000', alignment=6))
+    self.addControl(xbmcgui.ControlLabel(x, y, w, h, 'Press button', 'font13', '0xFFFF0000', alignment=6))
   
   def onAction(self, action):
     self.key = action.getButtonCode()
@@ -55,7 +55,7 @@ def record_key():
 def node_main():
   confirm_discard = False
   while True:
-    idx = xbmcgui.Dialog().select("heading", ["Edit", "Save"])
+    idx = xbmcgui.Dialog().select("Keymap config", ["Edit", "Save"])
     if idx == 0:
       confirm_discard = True
       node_edit()
@@ -63,7 +63,7 @@ def node_main():
       node_save()
       break
     elif idx == -1 and confirm_discard:
-      if xbmcgui.Dialog().yesno("", "Discard changes?") == 1:
+      if xbmcgui.Dialog().yesno("Keymap config", "Discard changes?") == 1:
         break
     else:
       break
@@ -140,6 +140,7 @@ if (__name__ == "__main__"):
   
   contexts = list(set([ c for c,a,k in defaultkeymap ]))
   actions = list(set([ a for c,a,k in defaultkeymap ] + io.actions))
+  contexts.sort()
   
   node_main()
 
