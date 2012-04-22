@@ -1,2 +1,0 @@
-xbmc-addon-keymap-config
-========================

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.keymapconfig"
+       name="Keymap config"
+       version="0.1"
+       provider-name="takoi">
+	<requires>
+		<import addon="xbmc.python" version="2.0"/>
+	</requires>
+	<extension point="xbmc.python.script" library="default.py"/>
+	<extension point="xbmc.addon.metadata">
+		<summary>todo</summary>
+		<description>todo</description>
+		<platform>all</platform>
+	</extension>
+</addon>
