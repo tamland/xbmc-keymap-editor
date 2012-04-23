@@ -143,8 +143,5 @@ if (__name__ == "__main__"):
   
   node_main()
 
-
-
-
-
+sys.modules.clear()
 
