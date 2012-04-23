@@ -20,9 +20,8 @@ import xbmcgui
 import xbmcaddon
 import io
 
-ADDON    = xbmcaddon.Addon()
+ADDON = xbmcaddon.Addon()
 ADDON_ID = ADDON.getAddonInfo('id')
-CWD      = ADDON.getAddonInfo('path')
 
 contexts = []
 actions = []
