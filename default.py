@@ -28,7 +28,6 @@ actions = []
 userkeymap = []
 defaultkeymap = []
 gen_file = None
-bg_img = os.path.join(ADDON.getAddonInfo('path'), 'bg.png')
 
 
 class KeyListener(xbmcgui.WindowXMLDialog):
