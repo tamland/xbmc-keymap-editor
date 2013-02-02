@@ -31,21 +31,17 @@ gen_file = None
 bg_img = os.path.join(ADDON.getAddonInfo('path'), 'bg.png')
 
 
-class KeyListener(xbmcgui.WindowDialog):
-  def __init__(self):
-    w = 256
-    h = 128
-    x = self.getWidth()/2 - w/2
-    y = self.getHeight()/2 - h/2
-    self.addControl(xbmcgui.ControlImage(x, y, w, h, bg_img))
-    self.addControl(xbmcgui.ControlLabel(x, y, w, h, 'Press button', 'font13', '0xFFFF0000', alignment=6))
+class KeyListener(xbmcgui.WindowXMLDialog):
+  def onInit( self ):
+    self.getControl( 401 ).setLabel( "Press a key" )
+    self.getControl( 402 ).setLabel( "Press the key you want to assign, now!" )
   
   def onAction(self, action):
     self.key = action.getButtonCode()
     self.close()
 
 def record_key():
-  dialog = KeyListener()
+  dialog = KeyListener("DialogKaiToast.xml", ADDON.getAddonInfo('path'))
   dialog.doModal()
   ret = dialog.key
   del dialog
@@ -76,7 +72,7 @@ def node_edit():
     
     while True:
       actions = get_actions(context)
-      labels = [ "%s  -  %s" % (a, k) for  a, k in actions ]
+      labels = [ "%s  -  %s" % (clean_text(a), k) for  a, k in actions ]
       
       idx = xbmcgui.Dialog().select("Select action", labels)
       if idx == -1:
@@ -115,7 +111,26 @@ def get_actions(context):
   
   ret.sort()
   return ret
-
+  
+def clean_text(text):
+  text = text.replace("xbmc.","")
+  text = text.replace("activatewindow(","open ")
+  text = text.replace(")","")
+  text = text.replace("shutdown(","shutdown")
+  findstring = ["codec","level","zoom","volume","toggle","shift","delay","subtitle","small","skip","show","scroll","reset","random","previous","play","parent","page","number","item","move","lock","last","hide","first","filters","increase","decrease","cursor","channel","big","step","next","delay","seek","fast","analog","video","music","files","context","gui","osd","my","settings","addon","fullscreen","movie","login","playlist","tv","numeric","audio","picture","player","pvr","screen","shutdown","virtual","visualisation"]
+  for item in findstring: 
+    text = text.replace(item,item + " ")
+  text = text.replace("gui de","guide")
+  text = text.replace("picture s","pictures")
+  text = text.replace("play er","player ")
+  text = text.replace("play list","playlist")
+  text = text.replace("screen shot","screenshot")
+  text = text.replace("channel s","channels")
+  text = text.replace("subtitle s","subtitles")
+  text = text.replace("my video s","my videos")
+  text = text.replace("preset ","preset")
+  text = text.replace("subtitlesh","subtitle sh")
+  return text
 
 if (__name__ == "__main__"):
   default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
@@ -137,7 +152,7 @@ if (__name__ == "__main__"):
   defaultkeymap = io.read_keymap(default)
   userkeymap = io.read_keymap(gen_file) if os.path.exists(gen_file) else []
   
-  contexts = list(set([ c for c,a,k in defaultkeymap ]))
+  contexts = list(set([ clean_text(c) for c,a,k in defaultkeymap ]))
   actions = list(set([ a for c,a,k in defaultkeymap ] + io.actions))
   contexts.sort()
   
