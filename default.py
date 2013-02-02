@@ -66,7 +66,7 @@ def node_main():
 
 def node_edit():
   while True:
-    idx = xbmcgui.Dialog().select("Select context", contexts)
+    idx = xbmcgui.Dialog().select("Select Window to manage shortcuts", contexts)
     if idx == -1: break
     context = contexts[idx]
     
@@ -74,7 +74,7 @@ def node_edit():
       actions = get_actions(context)
       labels = [ "%s  -  %s" % (clean_text(a), k) for  a, k in actions ]
       
-      idx = xbmcgui.Dialog().select("Select action", labels)
+      idx = xbmcgui.Dialog().select("Select the action you want to assign a key", labels)
       if idx == -1:
         break
       action, oldkey = actions[idx]
