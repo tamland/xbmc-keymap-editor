@@ -32,23 +32,18 @@ gen_file = None
 
 class KeyListener(xbmcgui.WindowXMLDialog):
   def onInit( self ):
-    if self.testForFunc():
+    try:
       self.getControl( 401 ).addLabel( "Press a key" )
-      self.getControl( 402 ).addLabel( "Press the key you want to assign, now!" )
-    else: 
+    except:
       self.getControl( 401 ).setLabel( "Press a key" )
+    try:
+      self.getControl( 402 ).addLabel( "Press the key you want to assign, now!" )
+    except: 
       self.getControl( 402 ).setLabel( "Press the key you want to assign, now!" )
                                                         
   def onAction(self, action):
     self.key = action.getButtonCode()
     self.close()
-                                                                      
-  def testForFunc( self ): 
-    try:
-      self.getControl( 401 ).addLabel( "" )
-      return True
-    except:
-      return False 
 
 def record_key():
   dialog = KeyListener("DialogKaiToast.xml", ADDON.getAddonInfo('path'))
