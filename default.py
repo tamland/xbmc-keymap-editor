@@ -12,13 +12,13 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-
 import os
 import sys
 import xbmc
 import xbmcgui
 import xbmcaddon
 import io
+from xbmcgui import Dialog, WindowXMLDialog
 
 ADDON = xbmcaddon.Addon()
 ADDON_ID = ADDON.getAddonInfo('id')
@@ -30,7 +30,7 @@ defaultkeymap = []
 gen_file = None
 
 
-class KeyListener(xbmcgui.WindowXMLDialog):
+class KeyListener(WindowXMLDialog):
   def onInit( self ):
     try:
       self.getControl( 401 ).addLabel( "Press a key" )
@@ -55,7 +55,7 @@ def record_key():
 def node_main():
   confirm_discard = False
   while True:
-    idx = xbmcgui.Dialog().select("Keymap config", ["Edit", "Save"])
+    idx = Dialog().select("Keymap config", ["Edit", "Save"])
     if idx == 0:
       confirm_discard = True
       node_edit()
@@ -63,7 +63,7 @@ def node_main():
       node_save()
       break
     elif idx == -1 and confirm_discard:
-      if xbmcgui.Dialog().yesno("Keymap config", "Discard changes?") == 1:
+      if Dialog().yesno("Keymap config", "Discard changes?") == 1:
         break
     else:
       break
@@ -71,15 +71,16 @@ def node_main():
 
 def node_edit():
   while True:
-    idx = xbmcgui.Dialog().select("Select Window to manage shortcuts", contexts)
-    if idx == -1: break
+    idx = Dialog().select("Select Window to manage shortcuts", contexts)
+    if idx == -1:
+      break
     context = contexts[idx]
     
     while True:
       actions = get_actions(context)
       labels = [ "%s  -  %s" % (clean_text(a), k) for  a, k in actions ]
       
-      idx = xbmcgui.Dialog().select("Select the action you want to assign a key", labels)
+      idx = Dialog().select("Select the action you want to assign a key", labels)
       if idx == -1:
         break
       action, oldkey = actions[idx]
@@ -137,11 +138,10 @@ def clean_text(text):
   text = text.replace("subtitlesh","subtitle sh")
   return text
 
-if (__name__ == "__main__"):
+if __name__ == "__main__":
   default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
   user = xbmc.translatePath('special://userdata/keymaps')
   gen_file = os.path.join(user, 'gen.xml')
-  
   
   if not os.path.exists(user):
     os.makedirs(user)
