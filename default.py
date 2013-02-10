@@ -18,13 +18,14 @@ import xbmc
 import xbmcgui
 import xbmcaddon
 import io
+from collections import OrderedDict
 from xbmcgui import Dialog, WindowXMLDialog
+from actions import ACTIONS
 
 ADDON = xbmcaddon.Addon()
 ADDON_ID = ADDON.getAddonInfo('id')
 
 contexts = []
-actions = []
 userkeymap = []
 defaultkeymap = []
 gen_file = None
@@ -45,13 +46,6 @@ class KeyListener(WindowXMLDialog):
     self.key = action.getButtonCode()
     self.close()
 
-def record_key():
-  dialog = KeyListener("DialogKaiToast.xml", "")
-  dialog.doModal()
-  ret = dialog.key
-  del dialog
-  return str(ret)
-
 def node_main():
   confirm_discard = False
   while True:
@@ -68,6 +62,12 @@ def node_main():
     else:
       break
 
+def record_key():
+  dialog = KeyListener("DialogKaiToast.xml", "")
+  dialog.doModal()
+  ret = dialog.key
+  del dialog
+  return str(ret)
 
 def node_edit():
   while True:
@@ -77,45 +77,40 @@ def node_edit():
     context = contexts[idx]
     
     while True:
-      actions = get_actions(context)
-      labels = [ "%s  -  %s" % (clean_text(a), k) for  a, k in actions ]
-      
-      idx = Dialog().select("Select the action you want to assign a key", labels)
+      categoies = ACTIONS.keys()
+      idx = Dialog().select("Select category", categoies)
       if idx == -1:
         break
-      action, oldkey = actions[idx]
-      newkey = record_key()
+      category = categoies[idx]
       
-      print("%s setting action <%s> to key <%s>. oldkey <%s>" % (ADDON_ID, action, newkey, oldkey)  )
-      
-      if (context, action, oldkey) in userkeymap:
-        userkeymap.remove((context, action, oldkey))
-      userkeymap.append((context, action, newkey))
-
+      while True:
+        actions = get_actions(context, category)
+        labels = [ "%s - %s" % (name, key) for  action, key, name in actions ]
+        idx = Dialog().select("Select the action to assign a key", labels)
+        if idx == -1:
+          break
+        action, oldkey, _ = actions[idx]
+        newkey = record_key()
+        
+        if (context, action, oldkey) in userkeymap:
+          userkeymap.remove((context, action, oldkey))
+        userkeymap.append((context, action, newkey))
 
 def node_save():
   io.write_keymap(userkeymap, gen_file)
 
-
-def get_actions(context):
-  ret = []
-  
-  for c,a,k in userkeymap:
+def get_actions(context, category):
+  actions = OrderedDict([(action, "") for action in ACTIONS[category].keys()])
+  for c, a, k in defaultkeymap:
     if c == context:
-      ret.append((a, k))
-  
-  for c,a,k in defaultkeymap:
+      if actions.get(a):
+        actions[a] = k
+  for c, a, k in userkeymap:
     if c == context:
-      exists = [e for e in ret if e[0] == a]
-      if not exists:
-        ret.append((a, k))
-  
-  for a in actions:
-    exists = [e for e in ret if e[0] == a]
-    if not exists:
-      ret.append((a, 'none'))
-  
-  ret.sort()
+      if actions.get(a):
+        actions[a] = k
+  names = ACTIONS[category]
+  ret = [ (action, key, names[action]) for action, key in actions.iteritems() ]
   return ret
   
 def clean_text(text):
@@ -155,10 +150,10 @@ if __name__ == "__main__":
           os.rename(src, dst)
   
   defaultkeymap = io.read_keymap(default)
+  print "defaultkeymap: " + str(defaultkeymap)
   userkeymap = io.read_keymap(gen_file) if os.path.exists(gen_file) else []
   
   contexts = list(set([ clean_text(c) for c,a,k in defaultkeymap ]))
-  actions = list(set([ a for c,a,k in defaultkeymap ] + io.actions))
   contexts.sort()
   
   node_main()
