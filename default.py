@@ -46,7 +46,7 @@ class KeyListener(WindowXMLDialog):
     self.close()
 
 def record_key():
-  dialog = KeyListener("DialogKaiToast.xml", ADDON.getAddonInfo('path'))
+  dialog = KeyListener("DialogKaiToast.xml", "")
   dialog.doModal()
   ret = dialog.key
   del dialog
