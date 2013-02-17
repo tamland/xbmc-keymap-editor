@@ -98,13 +98,13 @@ def node_save():
 
 def get_actions(window, category):
   actions = OrderedDict([(action, "") for action in ACTIONS[category].keys()])
-  for c, a, k in defaultkeymap:
-    if c == window:
-      if actions.get(a):
+  for w, a, k in defaultkeymap:
+    if w == window:
+      if a in actions.keys():
         actions[a] = k
-  for c, a, k in userkeymap:
-    if c == window:
-      if actions.get(a):
+  for w, a, k in userkeymap:
+    if w == window:
+      if a in actions.keys():
         actions[a] = k
   names = ACTIONS[category]
   ret = [ (action, key, names[action]) for action, key in actions.iteritems() ]
