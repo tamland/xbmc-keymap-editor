@@ -25,6 +25,7 @@ from actions import WINDOWS
 
 ADDON = xbmcaddon.Addon()
 ADDON_ID = ADDON.getAddonInfo('id')
+tr = ADDON.getLocalizedString
 
 userkeymap = []
 defaultkeymap = []
@@ -33,11 +34,11 @@ gen_file = None
 class KeyListener(WindowXMLDialog):
   def onInit(self):
     try:
-      self.getControl(401).addLabel("Press a key")
-      self.getControl(402).addLabel("Press the key you want to assign now")
+      self.getControl(401).addLabel(tr(30001))
+      self.getControl(402).addLabel(tr(30002))
     except:
-      self.getControl(401).setLabel("Press a key")
-      self.getControl(402).setLabel("Press the key you want to assign now")
+      self.getControl(401).setLabel(tr(30001))
+      self.getControl(402).setLabel(tr(30002))
   
   def onAction(self, action):
     self.key = action.getButtonCode()
@@ -46,7 +47,7 @@ class KeyListener(WindowXMLDialog):
 def node_main():
   confirm_discard = False
   while True:
-    idx = Dialog().select("Keymap config", ["Edit", "Save"])
+    idx = Dialog().select(tr(30000), [tr(30003), tr(30005)])
     if idx == 0:
       confirm_discard = True
       node_edit()
@@ -54,7 +55,7 @@ def node_main():
       node_save()
       break
     elif idx == -1 and confirm_discard:
-      if Dialog().yesno("Keymap config", "Discard changes?") == 1:
+      if Dialog().yesno(tr(30000), tr(30006)) == 1:
         break
     else:
       break
@@ -68,13 +69,13 @@ def record_key():
 
 def node_edit():
   while True:
-    idx = Dialog().select("Select Window to manage shortcuts", WINDOWS.values())
+    idx = Dialog().select(tr(30007), WINDOWS.values())
     if idx == -1:
       break
     window = WINDOWS.keys()[idx]
     
     while True:
-      idx = Dialog().select("Select category", ACTIONS.keys())
+      idx = Dialog().select(tr(30008), ACTIONS.keys())
       if idx == -1:
         break
       category = ACTIONS.keys()[idx]
@@ -82,7 +83,7 @@ def node_edit():
       while True:
         actions = get_actions(window, category)
         labels = [ "%s - %s" % (name, key) for  action, key, name in actions ]
-        idx = Dialog().select("Select the action to assign a key", labels)
+        idx = Dialog().select(tr(30009), labels)
         if idx == -1:
           break
         action, oldkey, _ = actions[idx]
