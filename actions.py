@@ -365,5 +365,5 @@ def _to_dict():
     ret[category] = OrderedDict(zip(actions, names))
   return ret
 
-ACTIONS = _to_dict()
+ACTIONS = _to_dict() # map the action list to a CategoryStr -> ActionKey -> ActionStr dict
 WINDOWS = OrderedDict(zip(_windows[0::2], _windows[1::2]))
