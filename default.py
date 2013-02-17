@@ -149,7 +149,6 @@ if __name__ == "__main__":
           os.rename(src, dst)
   
   defaultkeymap = io.read_keymap(default)
-  print "defaultkeymap: " + str(defaultkeymap)
   userkeymap = io.read_keymap(gen_file) if os.path.exists(gen_file) else []
   
   node_main()
