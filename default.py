@@ -35,10 +35,10 @@ class KeyListener(WindowXMLDialog):
   def onInit(self):
     try:
       self.getControl(401).addLabel("Press a key")
-      self.getControl(402).addLabel("Press the key you want to assign, now!")
+      self.getControl(402).addLabel("Press the key you want to assign now")
     except:
       self.getControl(401).setLabel("Press a key")
-      self.getControl(402).setLabel("Press the key you want to assign, now!")
+      self.getControl(402).setLabel("Press the key you want to assign now")
   
   def onAction(self, action):
     self.key = action.getButtonCode()
