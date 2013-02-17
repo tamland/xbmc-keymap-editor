@@ -21,11 +21,11 @@ import io
 from collections import OrderedDict
 from xbmcgui import Dialog, WindowXMLDialog
 from actions import ACTIONS
+from actions import WINDOWS
 
 ADDON = xbmcaddon.Addon()
 ADDON_ID = ADDON.getAddonInfo('id')
 
-contexts = []
 userkeymap = []
 defaultkeymap = []
 gen_file = None
@@ -71,10 +71,10 @@ def record_key():
 
 def node_edit():
   while True:
-    idx = Dialog().select("Select Window to manage shortcuts", contexts)
+    idx = Dialog().select("Select Window to manage shortcuts", WINDOWS.values())
     if idx == -1:
       break
-    context = contexts[idx]
+    window = WINDOWS.keys()[idx]
     
     while True:
       categories = ACTIONS.keys()
@@ -84,7 +84,7 @@ def node_edit():
       category = categories[idx]
       
       while True:
-        actions = get_actions(context, category)
+        actions = get_actions(window, category)
         labels = [ "%s - %s" % (name, key) for  action, key, name in actions ]
         idx = Dialog().select("Select the action to assign a key", labels)
         if idx == -1:
@@ -92,21 +92,21 @@ def node_edit():
         action, oldkey, _ = actions[idx]
         newkey = record_key()
         
-        if (context, action, oldkey) in userkeymap:
-          userkeymap.remove((context, action, oldkey))
-        userkeymap.append((context, action, newkey))
+        if (window, action, oldkey) in userkeymap:
+          userkeymap.remove((window, action, oldkey))
+        userkeymap.append((window, action, newkey))
 
 def node_save():
   io.write_keymap(userkeymap, gen_file)
 
-def get_actions(context, category):
+def get_actions(window, category):
   actions = OrderedDict([(action, "") for action in ACTIONS[category].keys()])
   for c, a, k in defaultkeymap:
-    if c == context:
+    if c == window:
       if actions.get(a):
         actions[a] = k
   for c, a, k in userkeymap:
-    if c == context:
+    if c == window:
       if actions.get(a):
         actions[a] = k
   names = ACTIONS[category]
@@ -152,9 +152,6 @@ if __name__ == "__main__":
   defaultkeymap = io.read_keymap(default)
   print "defaultkeymap: " + str(defaultkeymap)
   userkeymap = io.read_keymap(gen_file) if os.path.exists(gen_file) else []
-  
-  contexts = list(set([ clean_text(c) for c,a,k in defaultkeymap ]))
-  contexts.sort()
   
   node_main()
 
