@@ -77,11 +77,11 @@ def node_edit():
     context = contexts[idx]
     
     while True:
-      categoies = ACTIONS.keys()
-      idx = Dialog().select("Select category", categoies)
+      categories = ACTIONS.keys()
+      idx = Dialog().select("Select category", categories)
       if idx == -1:
         break
-      category = categoies[idx]
+      category = categories[idx]
       
       while True:
         actions = get_actions(context, category)
