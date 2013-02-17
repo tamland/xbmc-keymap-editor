@@ -30,7 +30,6 @@ userkeymap = []
 defaultkeymap = []
 gen_file = None
 
-
 class KeyListener(WindowXMLDialog):
   def onInit(self):
     try:
@@ -109,26 +108,7 @@ def get_actions(window, category):
   names = ACTIONS[category]
   ret = [ (action, key, names[action]) for action, key in actions.iteritems() ]
   return ret
-  
-def clean_text(text):
-  text = text.replace("xbmc.","")
-  text = text.replace("activatewindow(","open ")
-  text = text.replace(")","")
-  text = text.replace("shutdown(","shutdown")
-  findstring = ["codec","level","zoom","volume","toggle","shift","delay","subtitle","small","skip","show","scroll","reset","random","previous","play","parent","page","number","item","move","lock","last","hide","first","filters","increase","decrease","cursor","channel","big","step","next","delay","seek","fast","analog","video","music","files","context","gui","osd","my","settings","addon","fullscreen","movie","login","playlist","tv","numeric","audio","picture","player","pvr","screen","shutdown","virtual","visualisation"]
-  for item in findstring: 
-    text = text.replace(item,item + " ")
-  text = text.replace("gui de","guide")
-  text = text.replace("picture s","pictures")
-  text = text.replace("play er","player ")
-  text = text.replace("play list","playlist")
-  text = text.replace("screen shot","screenshot")
-  text = text.replace("channel s","channels")
-  text = text.replace("subtitle s","subtitles")
-  text = text.replace("my video s","my videos")
-  text = text.replace("preset ","preset")
-  text = text.replace("subtitlesh","subtitle sh")
-  return text
+
 
 if __name__ == "__main__":
   default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
@@ -152,4 +132,3 @@ if __name__ == "__main__":
   node_main()
 
 sys.modules.clear()
-
