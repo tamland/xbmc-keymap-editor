@@ -44,16 +44,16 @@ def init():
   defaultkeymap = io.read_keymap(default)
   userkeymap = io.read_keymap(gen_file) if os.path.exists(gen_file) else []
 
-def node_main():
+def main():
   confirm_discard = False
   while True:
     idx = Dialog().select(tr(30000), [tr(30003), tr(30004), tr(30005)])
     if idx == 0:
-      confirm_discard = node_edit()
+      confirm_discard = edit()
     elif idx == 1:
-      node_delete()
+      delete()
     elif idx == 2:
-      node_save()
+      save()
       break
     elif idx == -1 and confirm_discard:
       if Dialog().yesno(tr(30000), tr(30006)) == 1:
@@ -61,22 +61,22 @@ def node_main():
     else:
       break
 
-def node_edit():
+def edit():
   editor = Editor(defaultkeymap, userkeymap)
   editor.start()
   return editor.dirty
 
-def node_delete():
+def delete():
   if os.path.exists(gen_file):
     os.remove(gen_file)
 
-def node_save():
+def save():
   if os.path.exists(gen_file):
     os.rename(gen_file, gen_file + ".old")
   io.write_keymap(userkeymap, gen_file)
 
 if __name__ == "__main__":
   init()
-  node_main()
+  main()
 
 sys.modules.clear()
