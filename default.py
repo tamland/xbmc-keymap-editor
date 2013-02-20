@@ -64,6 +64,8 @@ def node_edit():
   Editor(defaultkeymap, userkeymap).start()
 
 def node_save():
+  if os.path.exists(gen_file):
+    os.rename(gen_file, gen_file + ".old")
   io.write_keymap(userkeymap, gen_file)
 
 if __name__ == "__main__":
