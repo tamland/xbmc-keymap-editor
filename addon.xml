@@ -10,7 +10,8 @@
     <extension point="xbmc.python.script" library="default.py"/>
     <extension point="xbmc.addon.metadata">
         <summary lang="en">An editor for keymap files</summary>
-        <description lang="en">Keymap Editor is a GUI for configuring mappings for remotes, keyboard and other inputs supported by xbmc</description>
+        <description lang="en">Keymap Editor is a GUI for configuring mappings for remotes, keyboard and other inputs supported by xbmc.</description>
+        <disclaimer lang="en">Existing user defined key mappings will be removed.</disclaimer>
         <platform>all</platform>
     </extension>
 </addon>
