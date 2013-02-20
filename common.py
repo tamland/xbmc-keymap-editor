@@ -21,18 +21,18 @@ _actions = [
     "pageup"            , "Page Up",
     "pagedown"          , "Page Down",
     "select"            , "Select Item",
-    "highlight"         , "HIGHLIGHT_ITEM",
-    "parentdir"         , "NAV_BACK",       # backward compatibility
-    "close"             , "NAV_BACK", # backwards compatibility
-    "parentfolder"      , "PARENT_DIR",
-    "back"              , "NAV_BACK",
-    "previousmenu"      , "PREVIOUS_MENU",
-    "info"              , "SHOW_INFO",
-    "contextmenu"       , "CONTEXT_MENU",
-    "firstpage"         , "FIRST_PAGE",
-    "lastpage"          , "LAST_PAGE",
-    "nextletter"        , "NEXT_LETTER",
-    "prevletter"        , "PREV_LETTER",
+    "highlight"         , "Highlight Item",
+    #"parentdir"         , "NAV_BACK",       # backward compatibility
+    #"close"             , "NAV_BACK", # backwards compatibility
+    "parentfolder"      , "Parent Directory",
+    "back"              , "Back",
+    "previousmenu"      , "Previous Menu",
+    "info"              , "Show Info",
+    "contextmenu"       , "Context Menu",
+    "firstpage"         , "First Page",
+    "lastpage"          , "Last Page",
+    "nextletter"        , "Next Letter",
+    "prevletter"        , "Previous Letter",
   ]],
   
   ["Playback", [
@@ -43,47 +43,42 @@ _actions = [
     "skipnext"          , "Next Item",
     "skipprevious"      , "Prev Item",
     
-    "fastforward"       , "PLAYER_FORWARD",
-    "rewind"            , "PLAYER_REWIND",
+    "fastforward"       , "Fast Forward",
+    "rewind"            , "Rewind",
+    "smallstepback"     , "Small Step Back",
+    "stepforward"       , "Step Forward",
+    "stepback"          , "Step Back",
+    "bigstepforward"    , "Big Step Forward",
+    "bigstepback"       , "Big Step Back",
+    "osd"               , "Show OSD",
+    "playlist"          , "Show Playlist",
     
-    "stepforward"       , "STEP_FORWARD",
-    "stepback"          , "STEP_BACK",
-    "smallstepback"     , "SMALL_STEP_BACK",
-    "bigstepforward"    , "BIG_STEP_FORWARD",
-    "bigstepback"       , "BIG_STEP_BACK",
+    "fullscreen"        , "SHOW_GUI", #?
+    "showvideomenu"     , "Show Video Menu",#?
     
-    "fullscreen"        , "SHOW_GUI",
-    "togglefullscreen"  , "TOGGLE_FULLSCREEN",
-    
-    "osd"               , "SHOW_OSD",
-    "showvideomenu"     , "SHOW_VIDEOMENU",
-    
-    "nextpicture"       , "NEXT_PICTURE",
-    "previouspicture"   , "PREV_PICTURE",
-
-    "playlist"          , "SHOW_PLAYLIST",
-    "queue"             , "QUEUE_ITEM",
-    "aspectratio"       , "ASPECT_RATIO",
+    "nextpicture"       , "Next Picture",
+    "previouspicture"   , "Previous Picture",
+    "aspectratio"       , "Aspect Ratio",
   ]],
   
   ["Audio", [
-    "mute"              , "MUTE",
-    "volumeup"          , "VOLUME_UP",
-    "volumedown"        , "VOLUME_DOWN",
-    "audionextlanguage" , "AUDIO_NEXT_LANGUAGE",
-    "audiodelay"        , "AUDIO_DELAY",
-    "audiodelayminus"   , "AUDIO_DELAY_MIN",
-    "audiodelayplus"    , "AUDIO_DELAY_PLUS",
-    "audiotoggledigital", "TOGGLE_DIGITAL_ANALOG",
+    "mute"              , "Mute",
+    "volumeup"          , "Volume Up",
+    "volumedown"        , "Volume Down",
+    "audionextlanguage" , "Next Language",
+    "audiodelay"        , "Delay",
+    "audiodelayminus"   , "Delay Minus",
+    "audiodelayplus"    , "Delay Plus",
+    "audiotoggledigital", "Toggle Digital/Analog",
   ]],
   
   ["Subtitle", [
-    "showsubtitles"     , "Show_SUBTITLES",
-    "nextsubtitle"      , "NEXT_SUBTITLE",
-    "subtitledelay"     , "SUBTITLE_DELAY",
-    "subtitledelayminus", "SUBTITLE_DELAY_MIN",
-    "subtitledelayplus" , "SUBTITLE_DELAY_PLUS",
-    "subtitlealign"     , "SUBTITLE_ALIGN",
+    "showsubtitles"     , "Show Subtitles",
+    "nextsubtitle"      , "Next Subtitle",
+    "subtitledelay"     , "Delay",
+    "subtitledelayminus", "Delay Minus",
+    "subtitledelayplus" , "Delay Plus",
+    "subtitlealign"     , "Align",
     "subtitleshiftup"   , "SUBTITLE_VSHIFT_UP",
     "subtitleshiftdown" , "SUBTITLE_VSHIFT_DOWN",
   ]],
@@ -96,7 +91,8 @@ _actions = [
     "nextchannelgroup"      , "NEXT_CHANNELGROUP",
   ]],
   
-  ["Item actions", [
+  ["Item Actions", [
+    "queue"             , "Queue Item",
     "delete"            , "DELETE_ITEM",
     "copy"              , "COPY_ITEM",
     "move"              , "MOVE_ITEM",
@@ -109,7 +105,18 @@ _actions = [
     "decreaserating"    , "DECREASE_RATING",
   ]],
   
-  ["Common keys", [
+  ["System", [
+    "togglefullscreen"  , "Toggle Fullscreen",
+    "minimize"          , "Minimize",
+    "restartapp"        , "Restart XBMC",
+    "quit"              , "Quit XBMC",
+    "shutdown"          , "Shutdown system",
+    "reboot"            , "Reboot System",
+    "hibernate"         , "Hibernate System",
+    "Suspend"           , "Suspend System",
+  ]],
+  
+  ["Common Keys", [
     "enter"             , "ENTER",
     "shift"             , "SHIFT",
     "symbols"           , "SYMBOLS",
@@ -238,15 +245,16 @@ _actions = [
 
 _windows = [
   "global"                   , "Global",
-  "home"                     , "WINDOW_HOME",
-  "programs"                 , "WINDOW_PROGRAMS",
+  "home"                     , "Home",
+  "programs"                 , "Programs",
+  "video"                    , "WINDOW_VIDEOS",
+  "music"                    , "WINDOW_MUSIC",
   "pictures"                 , "WINDOW_PICTURES",
   "filemanager"              , "WINDOW_FILES",
   "files"                    , "WINDOW_FILES", # backward compat
   "settings"                 , "WINDOW_SETTINGS_MENU",
-  "music"                    , "WINDOW_MUSIC",
-  "video"                    , "WINDOW_VIDEOS",
   "videos"                   , "WINDOW_VIDEO_NAV",
+  "videolibrary"             , "WINDOW_VIDEO_NAV",
   "tv"                       , "WINDOW_PVR", # backward compat
   "pvr"                      , "WINDOW_PVR",
   "pvrguideinfo"             , "WINDOW_DIALOG_PVR_GUIDE_INFO",
@@ -279,7 +287,6 @@ _windows = [
   "tvsettings"               , "WINDOW_SETTINGS_MYPVR",  # backward compat
   "scripts"                  , "WINDOW_PROGRAMS", # backward compat
   "videofiles"               , "WINDOW_VIDEO_FILES",
-  "videolibrary"             , "WINDOW_VIDEO_NAV",
   "videoplaylist"            , "WINDOW_VIDEO_PLAYLIST",
   "loginscreen"              , "WINDOW_LOGIN_SCREEN",
   "profiles"                 , "WINDOW_SETTINGS_PROFILES",
