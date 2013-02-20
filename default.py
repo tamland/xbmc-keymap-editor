@@ -47,10 +47,12 @@ def init():
 def node_main():
   confirm_discard = False
   while True:
-    idx = Dialog().select(tr(30000), [tr(30003), tr(30005)])
+    idx = Dialog().select(tr(30000), [tr(30003), tr(30004), tr(30005)])
     if idx == 0:
       confirm_discard = node_edit()
     elif idx == 1:
+      node_delete()
+    elif idx == 2:
       node_save()
       break
     elif idx == -1 and confirm_discard:
@@ -63,6 +65,10 @@ def node_edit():
   editor = Editor(defaultkeymap, userkeymap)
   editor.start()
   return editor.dirty
+
+def node_delete():
+  if os.path.exists(gen_file):
+    os.remove(gen_file)
 
 def node_save():
   if os.path.exists(gen_file):
