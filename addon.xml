@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.keymapconfig"
+<addon id="script.keymap"
        name="Keymap Editor"
        version="0.1"
        provider-name="takoi">
