@@ -20,6 +20,7 @@ class Editor(object):
   def __init__(self, defaultkeymap, userkeymap):
     self.defaultkeymap = defaultkeymap
     self.userkeymap = userkeymap
+    self.dirty = False
   
   def start(self):
     while True:
@@ -48,6 +49,8 @@ class Editor(object):
           if old in self.userkeymap:
             self.userkeymap.remove(old)
           self.userkeymap.append(new)
+          if old != new:
+            self.dirty = True
 
   def _current_keymap(self, window, category):
     actions = OrderedDict([(action, "") for action in ACTIONS[category].keys()])

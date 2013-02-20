@@ -49,8 +49,7 @@ def node_main():
   while True:
     idx = Dialog().select(tr(30000), [tr(30003), tr(30005)])
     if idx == 0:
-      confirm_discard = True
-      node_edit()
+      confirm_discard = node_edit()
     elif idx == 1:
       node_save()
       break
@@ -61,7 +60,9 @@ def node_main():
       break
 
 def node_edit():
-  Editor(defaultkeymap, userkeymap).start()
+  editor = Editor(defaultkeymap, userkeymap)
+  editor.start()
+  return editor.dirty
 
 def node_save():
   if os.path.exists(gen_file):
