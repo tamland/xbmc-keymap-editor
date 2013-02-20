@@ -54,6 +54,7 @@ def main():
       delete()
     elif idx == 2:
       save()
+      Dialog().ok(tr(30010), tr(30011))
       break
     elif idx == -1 and confirm_discard:
       if Dialog().yesno(tr(30000), tr(30006)) == 1:
