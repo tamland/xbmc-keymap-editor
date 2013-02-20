@@ -25,6 +25,24 @@ userkeymap = []
 defaultkeymap = []
 gen_file = None
 
+def init():
+  global userkeymap, defaultkeymap, gen_file
+  default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
+  userdata = xbmc.translatePath('special://userdata/keymaps')
+  gen_file = os.path.join(userdata, 'gen.xml')
+  
+  if not os.path.exists(userdata):
+    os.makedirs(userdata)
+  else:
+    #make sure there are no user defined keymaps
+    for name in os.listdir(userdata):
+      if name.endswith('.xml'):
+        if name != os.path.basename(gen_file):
+          src = os.path.join(userdata, name)
+          dst = os.path.join(userdata, name + ".bak")
+          os.rename(src, dst)
+  defaultkeymap = io.read_keymap(default)
+  userkeymap = io.read_keymap(gen_file) if os.path.exists(gen_file) else []
 
 def node_main():
   confirm_discard = False
@@ -48,26 +66,8 @@ def node_edit():
 def node_save():
   io.write_keymap(userkeymap, gen_file)
 
-
 if __name__ == "__main__":
-  default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
-  user = xbmc.translatePath('special://userdata/keymaps')
-  gen_file = os.path.join(user, 'gen.xml')
-  
-  if not os.path.exists(user):
-    os.makedirs(user)
-  else:
-    #make sure there are no user defined keymaps
-    for f in os.listdir(user):
-      if f.endswith('.xml'):
-        if f != os.path.basename(gen_file):
-          src = os.path.join(user, f)
-          dst = os.path.join(user, f+'.bak')
-          os.rename(src, dst)
-  
-  defaultkeymap = io.read_keymap(default)
-  userkeymap = io.read_keymap(gen_file) if os.path.exists(gen_file) else []
-  
+  init()
   node_main()
 
 sys.modules.clear()
