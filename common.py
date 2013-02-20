@@ -363,6 +363,10 @@ def _to_dict():
     actions = elem[1][0::2]
     names = elem[1][1::2]
     ret[category] = OrderedDict(zip(actions, names))
+  
+  actions = [ "activatewindow(%s)" % id for id in _windows[2::2] ] #dont include "global"
+  names = [ "Activate Window %s" % name for name in _windows[3::2] ]
+  ret["Windows"] = OrderedDict(zip(actions, names))
   return ret
 
 ACTIONS = _to_dict() # map the action list to a CategoryStr -> ActionKey -> ActionStr dict
