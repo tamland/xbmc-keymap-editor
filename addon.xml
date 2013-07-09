@@ -13,5 +13,9 @@
         <description lang="en">Keymap Editor is a GUI for configuring mappings for remotes, keyboard and other inputs supported by xbmc.</description>
         <disclaimer lang="en">Existing user defined key mappings will be removed.</disclaimer>
         <platform>all</platform>
+        <language/>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+        <forum/>
+        <source>https://github.com/takoi/xbmc-addon-keymap-config</source>
     </extension>
 </addon>
