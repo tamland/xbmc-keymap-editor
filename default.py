@@ -25,7 +25,7 @@ userkeymap = []
 defaultkeymap = []
 gen_file = None
 
-def init():
+def load_keymap_files():
   global userkeymap, defaultkeymap, gen_file
   default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
   userdata = xbmc.translatePath('special://userdata/keymaps')
@@ -44,7 +44,7 @@ def init():
   defaultkeymap = io.read_keymap(default)
   userkeymap = io.read_keymap(gen_file) if os.path.exists(gen_file) else []
 
-def main():
+def main_loop():
   confirm_discard = False
   while True:
     idx = Dialog().select(tr(30000), [tr(30003), tr(30004), tr(30005)])
@@ -77,7 +77,7 @@ def save():
   io.write_keymap(userkeymap, gen_file)
 
 if __name__ == "__main__":
-  init()
-  main()
+  load_keymap_files()
+  main_loop()
 
 sys.modules.clear()
