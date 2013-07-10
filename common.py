@@ -342,7 +342,7 @@ def _get_actions():
   all_windows = _activate_window + _windows[2:] #dont include "global"
   actions = [ "activatewindow(%s)" % w_id for w_id in all_windows[0::2] ]
   names = all_windows[1::2]
-  ret["Activate Window"] = OrderedDict(sorted(zip(actions, names)))
+  ret["Activate Window"] = OrderedDict(sorted(zip(actions, names), key=lambda t: t[1]))
   return ret
 
 ACTIONS = _get_actions() # map the action list to a CategoryStr -> ActionKey -> ActionStr dict
