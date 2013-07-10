@@ -298,7 +298,13 @@ _activate_window = [
   "pvrosdchannels"           , "PVR OSD Channels",
   "pvrosdguide"              , "PVR OSD Guide",
   "pvrosddirector"           , "PVR OSD Director",
-  "pvrosdcutter"             , "PVR OSD Cutter"
+  "pvrosdcutter"             , "PVR OSD Cutter",
+  "videos,movies"            , "Movies",
+  "videos,tvshows "          , "TV Shows",
+  "videos,musicvideos"       , "Music Videos",
+  "videos,recentlyaddedmovies"      , "Recently Added Movies",
+  "videos,recentlyaddedepisodes"    , "Recently Added Episodes",
+  "videos,recentlyaddedmusicvideos" , "Recently Added Music Videos"
 ]
 
 _windows = [
