@@ -127,6 +127,7 @@ _actions = [
     "hibernate"         , "Hibernate",
     "suspend"           , "Suspend",
     "restartapp"        , "Restart XBMC",
+    "system.logoff"     , "Log off",
     "quit"              , "Quit XBMC",
   ]],
   
