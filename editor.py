@@ -12,6 +12,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
+from threading import Timer
 from collections_backport import OrderedDict
 from xbmcgui import Dialog, WindowXMLDialog
 from common import ACTIONS, WINDOWS, tr
@@ -42,7 +43,9 @@ class Editor(object):
           if idx == -1:
             break
           action, oldkey, _ = curr_keymap[idx]
-          newkey = self._record_key()
+          newkey = KeyListener.record_key()
+          if newkey is None:
+            continue
           
           old = (window, action, oldkey)
           new = (window, action, newkey)
@@ -64,26 +67,36 @@ class Editor(object):
           actions[a] = k
     names = ACTIONS[category]
     return [ (action, key, names[action]) for action, key in actions.iteritems() ]
-  
-  def _record_key(self):
-    dialog = KeyListener()
-    dialog.doModal()
-    key = dialog.key
-    del dialog
-    return str(key)
+
 
 class KeyListener(WindowXMLDialog):
+  TIMEOUT = 5
+  
   def __new__(cls):
     return super(KeyListener, cls).__new__(cls, "DialogKaiToast.xml", "")
   
+  def __init__(self):
+    self.key = None
+  
   def onInit(self):
     try:
-      self.getControl(401).addLabel(tr(30001))
-      self.getControl(402).addLabel(tr(30002))
-    except:
-      self.getControl(401).setLabel(tr(30001))
-      self.getControl(402).setLabel(tr(30002))
+      self.getControl(401).addLabel(tr(30002))
+      self.getControl(402).addLabel(tr(30010) % self.TIMEOUT)
+    except AttributeError:
+      self.getControl(401).setLabel(tr(30002))
+      self.getControl(402).setLabel(tr(30010) % self.TIMEOUT)
   
   def onAction(self, action):
-    self.key = action.getButtonCode()
+    self.key = str(action.getButtonCode())
     self.close()
+  
+  @staticmethod
+  def record_key():
+    dialog = KeyListener()
+    timeout = Timer(KeyListener.TIMEOUT, dialog.close)
+    timeout.start()
+    dialog.doModal()
+    timeout.cancel()
+    key = dialog.key
+    del dialog
+    return key
