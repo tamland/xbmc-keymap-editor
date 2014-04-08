@@ -32,15 +32,14 @@ def read_keymap(filename):
     return ret
 
 def write_keymap(keymap, filename):
-    contexts = list(set([ c for c,a,k in keymap ]))
-    actions  = list(set([ a for c,a,k in keymap ]))
+    contexts = list(set([c for c, a, k in keymap]))
 
     builder = ET.TreeBuilder()
     builder.start("keymap", {})
     for context in contexts:
         builder.start(context, {})
         builder.start("keyboard", {})
-        for c,a,k in keymap:
+        for c, a, k in keymap:
             if c == context:
                 builder.start("key", {"id":k})
                 builder.data(a)

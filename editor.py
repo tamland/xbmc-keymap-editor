@@ -40,7 +40,7 @@ class Editor(object):
 
                 while True:
                     curr_keymap = self._current_keymap(window, category)
-                    labels = [ "%s - %s" % (name, key) for _, key, name in curr_keymap ]
+                    labels = ["%s - %s" % (name, key) for _, key, name in curr_keymap]
                     idx = Dialog().select(tr(30009), labels)
                     if idx == -1:
                         break
@@ -68,7 +68,7 @@ class Editor(object):
                 if a in actions.keys():
                     actions[a] = k
         names = ACTIONS[category]
-        return [ (action, key, names[action]) for action, key in actions.iteritems() ]
+        return [(action, key, names[action]) for action, key in actions.iteritems()]
 
 
 class KeyListener(WindowXMLDialog):
