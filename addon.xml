@@ -5,7 +5,6 @@
        provider-name="takoi">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-        <import addon="script.module.elementtree" version="1.2.7"/>
     </requires>
     <extension point="xbmc.python.script" library="default.py"/>
     <extension point="xbmc.addon.metadata">

@@ -13,13 +13,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import os
-import xml.etree.cElementTree as etree
-from elementtree.SimpleXMLWriter import XMLWriter
+import xml.etree.ElementTree as ET
 
 def read_keymap(filename):
   ret = []
   with open(filename, 'r') as xml:
-    tree = etree.iterparse(xml)
+    tree = ET.iterparse(xml)
     for _, keymap in tree:
       for context in keymap:
         for device in context:
@@ -34,16 +33,18 @@ def write_keymap(keymap, filename):
   contexts = list(set([ c for c,a,k in keymap ]))
   actions  = list(set([ a for c,a,k in keymap ]))
   
-  w = XMLWriter(filename, "utf-8")
-  doc = w.start("keymap")
-  
+  builder = ET.TreeBuilder()
+  builder.start("keymap", {})
   for context in contexts:
-    w.start(context)
-    w.start("keyboard")
+    builder.start(context, {})
+    builder.start("keyboard", {})
     for c,a,k in keymap:
-      if c==context:
-        w.element("key", a, id=k)
-    w.end()
-    w.end()
-  w.end()
-  w.close(doc)
+      if c == context:
+        builder.start("key", {"id":k})
+        builder.data(a)
+        builder.end("key")
+    builder.end("keyboard")
+    builder.end(context)
+  builder.end("keymap")
+  element = builder.close()
+  ET.ElementTree(element).write(filename, 'utf-8')
