@@ -27,56 +27,56 @@ defaultkeymap = []
 gen_file = None
 
 def load_keymap_files():
-  global userkeymap, defaultkeymap, gen_file
-  default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
-  userdata = xbmc.translatePath('special://userdata/keymaps')
-  gen_file = os.path.join(userdata, 'gen.xml')
-  
-  if not os.path.exists(userdata):
-    os.makedirs(userdata)
-  else:
-    #make sure there are no user defined keymaps
-    for name in os.listdir(userdata):
-      if name.endswith('.xml'):
-        if name != os.path.basename(gen_file):
-          src = os.path.join(userdata, name)
-          dst = os.path.join(userdata, name + ".bak")
-          os.rename(src, dst)
-  defaultkeymap = utils.read_keymap(default)
-  userkeymap = utils.read_keymap(gen_file) if os.path.exists(gen_file) else []
+    global userkeymap, defaultkeymap, gen_file
+    default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
+    userdata = xbmc.translatePath('special://userdata/keymaps')
+    gen_file = os.path.join(userdata, 'gen.xml')
+
+    if not os.path.exists(userdata):
+        os.makedirs(userdata)
+    else:
+        #make sure there are no user defined keymaps
+        for name in os.listdir(userdata):
+            if name.endswith('.xml'):
+                if name != os.path.basename(gen_file):
+                    src = os.path.join(userdata, name)
+                    dst = os.path.join(userdata, name + ".bak")
+                    os.rename(src, dst)
+    defaultkeymap = utils.read_keymap(default)
+    userkeymap = utils.read_keymap(gen_file) if os.path.exists(gen_file) else []
 
 def main_loop():
-  confirm_discard = False
-  while True:
-    idx = Dialog().select(tr(30000), [tr(30003), tr(30004), tr(30005)])
-    if idx == 0:
-      confirm_discard = edit()
-    elif idx == 1:
-      global userkeymap
-      confirm_discard = bool(userkeymap)
-      userkeymap = []
-    elif idx == 2:
-      save()
-      xbmc.executebuiltin("action(reloadkeymaps)")
-      break
-    elif idx == -1 and confirm_discard:
-      if Dialog().yesno(tr(30000), tr(30006)) == 1:
-        break
-    else:
-      break
+    confirm_discard = False
+    while True:
+        idx = Dialog().select(tr(30000), [tr(30003), tr(30004), tr(30005)])
+        if idx == 0:
+            confirm_discard = edit()
+        elif idx == 1:
+            global userkeymap
+            confirm_discard = bool(userkeymap)
+            userkeymap = []
+        elif idx == 2:
+            save()
+            xbmc.executebuiltin("action(reloadkeymaps)")
+            break
+        elif idx == -1 and confirm_discard:
+            if Dialog().yesno(tr(30000), tr(30006)) == 1:
+                break
+        else:
+            break
 
 def edit():
-  editor = Editor(defaultkeymap, userkeymap)
-  editor.start()
-  return editor.dirty
+    editor = Editor(defaultkeymap, userkeymap)
+    editor.start()
+    return editor.dirty
 
 def save():
-  if os.path.exists(gen_file):
-    os.rename(gen_file, gen_file + ".old")
-  utils.write_keymap(userkeymap, gen_file)
+    if os.path.exists(gen_file):
+        os.rename(gen_file, gen_file + ".old")
+    utils.write_keymap(userkeymap, gen_file)
 
 if __name__ == "__main__":
-  load_keymap_files()
-  main_loop()
+    load_keymap_files()
+    main_loop()
 
 sys.modules.clear()

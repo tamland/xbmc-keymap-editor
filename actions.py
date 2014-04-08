@@ -34,7 +34,7 @@ _actions = [
     "nextletter"        , "Next Letter",
     "prevletter"        , "Previous Letter",
   ]],
-  
+
   ["Playback", [
     "play"              , "Play",
     "pause"             , "Pause",
@@ -56,7 +56,7 @@ _actions = [
     "aspectratio"       , "Change Aspect Ratio",
     "showvideomenu"     , "Go to DVD Video Menu",
   ]],
-  
+
   ["Audio", [
     "mute"              , "Mute",
     "volumeup"          , "Volume Up",
@@ -67,7 +67,7 @@ _actions = [
     "audiodelayplus"    , "Delay Plus",
     "audiotoggledigital", "Toggle Digital/Analog",
   ]],
-  
+
   ["Pictures", [
     "nextpicture"       , "Next Picture",
     "previouspicture"   , "Previous Picture",
@@ -86,7 +86,7 @@ _actions = [
     "zoomlevel8"        , "Zoom level 8",
     "zoomlevel9"        , "Zoom level 9",
   ]],
-  
+
   ["Subtitle", [
     "showsubtitles"     , "Show Subtitles",
     "nextsubtitle"      , "Next Subtitle",
@@ -97,14 +97,14 @@ _actions = [
     #"subtitleshiftup"   , "SUBTITLE_VSHIFT_UP", #?
     #"subtitleshiftdown" , "SUBTITLE_VSHIFT_DOWN", #?
   ]],
-  
+
   ["PVR", [
     "channelup"             , "Channel Up",
     "channeldown"           , "Channel Down",
     "previouschannelgroup"  , "Previous channel group",
     "nextchannelgroup"      , "Next channel group",
   ]],
-  
+
   ["Item Actions", [
     "queue"             , "Queue item",
     "delete"            , "Delete item",
@@ -118,7 +118,7 @@ _actions = [
     #"increaserating"    , "INCREASE_RATING", #unused
     #"decreaserating"    , "DECREASE_RATING", #unused
   ]],
-  
+
   ["System", [
     "togglefullscreen"  , "Toggle Fullscreen",
     "minimize"          , "Minimize",
@@ -130,7 +130,7 @@ _actions = [
     "system.logoff"     , "Log off",
     "quit"              , "Quit XBMC",
   ]],
-  
+
   ["Virtual Keyboard", [
     "enter"             , "Enter",
     "shift"             , "Shift",
@@ -151,7 +151,7 @@ _actions = [
     "yellow"            , "Teletext Yellow",
     "blue"              , "Teletext Blue",
   ]],
-  
+
   ["Other", [
     "codecinfo"         , "Show codec info",
     "screenshot"        , "Take screenshot",
@@ -168,7 +168,7 @@ _actions = [
     "lockpreset"        , "Lock current visualisation preset ",
     "randompreset"      , "Switch to a new random preset",
   ]],
-  
+
   #["Analog", [
   #  "scrollup"          , "SCROLL_UP",
   #  "scrolldown"        , "SCROLL_DOWN",
@@ -188,7 +188,7 @@ _actions = [
   #  "mousedrag"         , "MOUSE_DRAG",
   #  "mousemove"         , "MOUSE_MOVE",
   #]]
-  
+
   #"verticalshiftup"   , "VSHIFT_UP",
   #"verticalshiftdown" , "VSHIFT_DOWN",
   #"increasevisrating" , "VIS_RATE_PRESET_PLUS",
@@ -335,18 +335,18 @@ _windows = [
 from collections_backport import OrderedDict
 
 def _get_actions():
-  ret = OrderedDict()
-  for elem in _actions:
-    category = elem[0]
-    actions = elem[1][0::2]
-    names = elem[1][1::2]
-    ret[category] = OrderedDict(zip(actions, names))
-  
-  all_windows = _activate_window + _windows[2:] #dont include "global"
-  actions = [ "activatewindow(%s)" % w_id for w_id in all_windows[0::2] ]
-  names = all_windows[1::2]
-  ret["Activate Window"] = OrderedDict(sorted(zip(actions, names), key=lambda t: t[1]))
-  return ret
+    ret = OrderedDict()
+    for elem in _actions:
+        category = elem[0]
+        actions = elem[1][0::2]
+        names = elem[1][1::2]
+        ret[category] = OrderedDict(zip(actions, names))
+
+    all_windows = _activate_window + _windows[2:] #dont include "global"
+    actions = [ "activatewindow(%s)" % w_id for w_id in all_windows[0::2] ]
+    names = all_windows[1::2]
+    ret["Activate Window"] = OrderedDict(sorted(zip(actions, names), key=lambda t: t[1]))
+    return ret
 
 ACTIONS = _get_actions() # map the action list to a CategoryStr -> ActionKey -> ActionStr dict
 WINDOWS = OrderedDict(zip(_windows[0::2], _windows[1::2]))

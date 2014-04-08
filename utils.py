@@ -19,35 +19,35 @@ import xbmcaddon
 tr = xbmcaddon.Addon().getLocalizedString
 
 def read_keymap(filename):
-  ret = []
-  with open(filename, 'r') as xml:
-    tree = ET.iterparse(xml)
-    for _, keymap in tree:
-      for context in keymap:
-        for device in context:
-          for mapping in device:
-            key = mapping.get('id') or mapping.tag
-            action = mapping.text
-            if action:
-              ret.append((context.tag.lower(), action.lower(), key.lower()))
-  return ret
+    ret = []
+    with open(filename, 'r') as xml:
+        tree = ET.iterparse(xml)
+        for _, keymap in tree:
+            for context in keymap:
+                for device in context:
+                    for mapping in device:
+                        key = mapping.get('id') or mapping.tag
+                        action = mapping.text
+                        if action:
+                            ret.append((context.tag.lower(), action.lower(), key.lower()))
+    return ret
 
 def write_keymap(keymap, filename):
-  contexts = list(set([ c for c,a,k in keymap ]))
-  actions  = list(set([ a for c,a,k in keymap ]))
-  
-  builder = ET.TreeBuilder()
-  builder.start("keymap", {})
-  for context in contexts:
-    builder.start(context, {})
-    builder.start("keyboard", {})
-    for c,a,k in keymap:
-      if c == context:
-        builder.start("key", {"id":k})
-        builder.data(a)
-        builder.end("key")
-    builder.end("keyboard")
-    builder.end(context)
-  builder.end("keymap")
-  element = builder.close()
-  ET.ElementTree(element).write(filename, 'utf-8')
+    contexts = list(set([ c for c,a,k in keymap ]))
+    actions  = list(set([ a for c,a,k in keymap ]))
+
+    builder = ET.TreeBuilder()
+    builder.start("keymap", {})
+    for context in contexts:
+        builder.start(context, {})
+        builder.start("keyboard", {})
+        for c,a,k in keymap:
+            if c == context:
+                builder.start("key", {"id":k})
+                builder.data(a)
+                builder.end("key")
+        builder.end("keyboard")
+        builder.end(context)
+    builder.end("keymap")
+    element = builder.close()
+    ET.ElementTree(element).write(filename, 'utf-8')
