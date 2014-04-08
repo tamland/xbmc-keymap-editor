@@ -15,6 +15,7 @@
 import os
 import xml.etree.ElementTree as ET
 
+
 def read_keymap(filename):
   ret = []
   with open(filename, 'r') as xml:

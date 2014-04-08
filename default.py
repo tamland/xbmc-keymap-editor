@@ -15,7 +15,7 @@
 import os
 import sys
 import xbmc
-import io
+import utils
 from xbmcgui import Dialog
 from common import ACTIONS, WINDOWS, tr
 from editor import Editor
@@ -40,8 +40,8 @@ def load_keymap_files():
           src = os.path.join(userdata, name)
           dst = os.path.join(userdata, name + ".bak")
           os.rename(src, dst)
-  defaultkeymap = io.read_keymap(default)
-  userkeymap = io.read_keymap(gen_file) if os.path.exists(gen_file) else []
+  defaultkeymap = utils.read_keymap(default)
+  userkeymap = utils.read_keymap(gen_file) if os.path.exists(gen_file) else []
 
 def main_loop():
   confirm_discard = False
@@ -73,7 +73,7 @@ def delete():
 def save():
   if os.path.exists(gen_file):
     os.rename(gen_file, gen_file + ".old")
-  io.write_keymap(userkeymap, gen_file)
+  utils.write_keymap(userkeymap, gen_file)
 
 if __name__ == "__main__":
   load_keymap_files()
