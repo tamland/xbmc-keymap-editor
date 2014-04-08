@@ -15,7 +15,9 @@
 from threading import Timer
 from collections_backport import OrderedDict
 from xbmcgui import Dialog, WindowXMLDialog
-from common import ACTIONS, WINDOWS, tr
+from common import ACTIONS, WINDOWS
+from utils import tr
+
 
 class Editor(object):
   def __init__(self, defaultkeymap, userkeymap):

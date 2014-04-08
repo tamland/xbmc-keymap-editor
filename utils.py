@@ -14,7 +14,9 @@
 '''
 import os
 import xml.etree.ElementTree as ET
+import xbmcaddon
 
+tr = xbmcaddon.Addon().getLocalizedString
 
 def read_keymap(filename):
   ret = []

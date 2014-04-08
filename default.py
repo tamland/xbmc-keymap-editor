@@ -17,8 +17,10 @@ import sys
 import xbmc
 import utils
 from xbmcgui import Dialog
-from common import ACTIONS, WINDOWS, tr
+from common import ACTIONS, WINDOWS
 from editor import Editor
+from utils import tr
+
 
 userkeymap = []
 defaultkeymap = []
