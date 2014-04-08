@@ -52,7 +52,9 @@ def main_loop():
     if idx == 0:
       confirm_discard = edit()
     elif idx == 1:
-      delete()
+      global userkeymap
+      confirm_discard = bool(userkeymap)
+      userkeymap = []
     elif idx == 2:
       save()
       xbmc.executebuiltin("action(reloadkeymaps)")
@@ -67,10 +69,6 @@ def edit():
   editor = Editor(defaultkeymap, userkeymap)
   editor.start()
   return editor.dirty
-
-def delete():
-  if os.path.exists(gen_file):
-    os.remove(gen_file)
 
 def save():
   if os.path.exists(gen_file):
