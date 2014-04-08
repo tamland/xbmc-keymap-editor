@@ -22,12 +22,8 @@ from editor import Editor
 from utils import tr
 
 
-userkeymap = []
-defaultkeymap = []
-gen_file = None
-
-def load_keymap_files():
-    global userkeymap, defaultkeymap, gen_file
+if __name__ == "__main__":
+    ## load mappings ##
     default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
     userdata = xbmc.translatePath('special://userdata/keymaps')
     gen_file = os.path.join(userdata, 'gen.xml')
@@ -45,18 +41,24 @@ def load_keymap_files():
     defaultkeymap = utils.read_keymap(default)
     userkeymap = utils.read_keymap(gen_file) if os.path.exists(gen_file) else []
 
-def main_loop():
+    ## main loop ##
     confirm_discard = False
     while True:
         idx = Dialog().select(tr(30000), [tr(30003), tr(30004), tr(30005)])
         if idx == 0:
-            confirm_discard = edit()
+            # edit
+            editor = Editor(defaultkeymap, userkeymap)
+            editor.start()
+            confirm_discard = editor.dirty
         elif idx == 1:
-            global userkeymap
+            # reset
             confirm_discard = bool(userkeymap)
             userkeymap = []
         elif idx == 2:
-            save()
+            # save
+            if os.path.exists(gen_file):
+                os.rename(gen_file, gen_file + ".old")
+            utils.write_keymap(userkeymap, gen_file)
             xbmc.executebuiltin("action(reloadkeymaps)")
             break
         elif idx == -1 and confirm_discard:
@@ -65,18 +67,4 @@ def main_loop():
         else:
             break
 
-def edit():
-    editor = Editor(defaultkeymap, userkeymap)
-    editor.start()
-    return editor.dirty
-
-def save():
-    if os.path.exists(gen_file):
-        os.rename(gen_file, gen_file + ".old")
-    utils.write_keymap(userkeymap, gen_file)
-
-if __name__ == "__main__":
-    load_keymap_files()
-    main_loop()
-
-sys.modules.clear()
+    sys.modules.clear()
