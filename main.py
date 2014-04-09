@@ -14,6 +14,7 @@
 '''
 import os
 import sys
+import traceback
 import xbmc
 import utils
 from xbmcgui import Dialog
@@ -21,7 +22,7 @@ from editor import Editor
 from utils import tr
 
 
-if __name__ == "__main__":
+def main():
     ## load mappings ##
     default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
     userdata = xbmc.translatePath('special://userdata/keymaps')
@@ -38,7 +39,15 @@ if __name__ == "__main__":
                     dst = os.path.join(userdata, name + ".bak")
                     os.rename(src, dst)
     defaultkeymap = utils.read_keymap(default)
-    userkeymap = utils.read_keymap(gen_file) if os.path.exists(gen_file) else []
+    userkeymap = []
+    if os.path.exists(gen_file):
+        try:
+            userkeymap = utils.read_keymap(gen_file)
+        except Exception:
+            traceback.print_exc()
+            utils.rpc('GUI.ShowNotification', title="Keymap Editor",
+                      message="Failed to load keymap file", image='error')
+            return
 
     ## main loop ##
     confirm_discard = False
@@ -67,3 +76,6 @@ if __name__ == "__main__":
             break
 
     sys.modules.clear()
+
+if __name__ == "__main__":
+    main()

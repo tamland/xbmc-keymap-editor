@@ -13,9 +13,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import xml.etree.ElementTree as ET
+import json
+import xbmc
 import xbmcaddon
 
 tr = xbmcaddon.Addon().getLocalizedString
+
+def rpc(method, **params):
+    params = json.dumps(params)
+    query = '{"jsonrpc": "2.0", "method": "%s", "params": %s, "id": 1}' % (method, params)
+    return json.loads(xbmc.executeJSONRPC(query))
 
 def read_keymap(filename):
     ret = []
