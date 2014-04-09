@@ -89,7 +89,8 @@ class KeyListener(WindowXMLDialog):
             self.getControl(402).setLabel(tr(30010) % self.TIMEOUT)
 
     def onAction(self, action):
-        self.key = str(action.getButtonCode())
+        code = action.getButtonCode()
+        self.key = None if code == 0 else str(code)
         self.close()
 
     @staticmethod
