@@ -333,20 +333,49 @@ _windows = [
 ]
 
 from collections_backport import OrderedDict
+import json
+import xbmc
 
-def _get_actions():
-    ret = OrderedDict()
+
+def action_dict(actions, action_names):
+    """Create dict of action->name sorted by name"""
+    return OrderedDict(sorted(zip(actions, action_names), key=lambda t: t[1]))
+
+
+def _get_run_addon_actions():
+    addons = []
+    addon_types = ['xbmc.python.pluginsource', 'xbmc.python.script']
+    for addon_type in addon_types:
+        method = "Addons.GetAddons"
+        params = '{"type": "%s", "properties": ["name", "enabled"]}' % addon_type
+        query = '{"jsonrpc": "2.0", "method": "%s", "params": %s, "id": 1}' % (method, params)
+        response = json.loads(xbmc.executeJSONRPC(query))
+        addons.extend([a for a in response['result']['addons'] if a['enabled']])
+    actions = ['runaddon(%s)' % a['addonid'] for a in addons]
+    names = ['Launch %s' % a['name'] for a in addons]
+    return action_dict(actions, names)
+
+
+def _get_activate_window_actions():
+    all_windows = _activate_window + _windows[2:] #don't include "global"
+    actions = ["activatewindow(%s)" % w_id for w_id in all_windows[0::2]]
+    names = all_windows[1::2]
+    return action_dict(actions, names)
+
+
+def _get_action_dict():
+    """ Map actions to 'category name'->'action id'->'action name' dict"""
+    d = OrderedDict()
     for elem in _actions:
         category = elem[0]
         actions = elem[1][0::2]
         names = elem[1][1::2]
-        ret[category] = OrderedDict(zip(actions, names))
+        d[category] = OrderedDict(zip(actions, names))
 
-    all_windows = _activate_window + _windows[2:] #dont include "global"
-    actions = ["activatewindow(%s)" % w_id for w_id in all_windows[0::2]]
-    names = all_windows[1::2]
-    ret["Activate Window"] = OrderedDict(sorted(zip(actions, names), key=lambda t: t[1]))
-    return ret
+    d["Activate Window"] = _get_activate_window_actions()
+    d["Add-ons"] = _get_run_addon_actions()
+    return d
 
-ACTIONS = _get_actions() # map the action list to a CategoryStr -> ActionKey -> ActionStr dict
+
+ACTIONS = _get_action_dict()
 WINDOWS = OrderedDict(zip(_windows[0::2], _windows[1::2]))
