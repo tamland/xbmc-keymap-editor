@@ -359,7 +359,7 @@ def _get_run_addon_actions():
 def _get_activate_window_actions():
     all_windows = _activate_window + _windows[2:] #don't include "global"
     actions = ["activatewindow(%s)" % w_id for w_id in all_windows[0::2]]
-    names = all_windows[1::2]
+    names = ["Open %s" % w for w in all_windows[1::2]]
     return action_dict(actions, names)
 
 
@@ -372,7 +372,7 @@ def _get_action_dict():
         names = elem[1][1::2]
         d[category] = OrderedDict(zip(actions, names))
 
-    d["Activate Window"] = _get_activate_window_actions()
+    d["Windows"] = _get_activate_window_actions()
     d["Add-ons"] = _get_run_addon_actions()
     return d
 

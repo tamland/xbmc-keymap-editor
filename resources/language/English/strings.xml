@@ -8,7 +8,7 @@
     <string id="30005">Save</string>
     <string id="30006">Discard changes?</string>
     <string id="30007">Select Window to manage shortcuts</string>
-    <string id="30008">Select category</string>
+    <string id="30008">Select action category</string>
     <string id="30009">Select the action to assign a key</string>
     <string id="30010">Timeout in %.0f seconds...</string>
 </strings>
