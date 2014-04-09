@@ -333,7 +333,7 @@ _windows = [
 ]
 
 from collections_backport import OrderedDict
-import json
+from utils import rpc
 import xbmc
 
 
@@ -346,10 +346,7 @@ def _get_run_addon_actions():
     addons = []
     addon_types = ['xbmc.python.pluginsource', 'xbmc.python.script']
     for addon_type in addon_types:
-        method = "Addons.GetAddons"
-        params = '{"type": "%s", "properties": ["name", "enabled"]}' % addon_type
-        query = '{"jsonrpc": "2.0", "method": "%s", "params": %s, "id": 1}' % (method, params)
-        response = json.loads(xbmc.executeJSONRPC(query))
+        response = rpc('Addons.GetAddons', type=addon_type, properties=['name', 'enabled'])
         addons.extend([a for a in response['result']['addons'] if a['enabled']])
     actions = ['runaddon(%s)' % a['addonid'] for a in addons]
     names = ['Launch %s' % a['name'] for a in addons]
