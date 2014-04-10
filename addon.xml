@@ -14,6 +14,6 @@
         <language/>
         <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
         <forum>http://forum.xbmc.org/showthread.php?tid=168767</forum>
-        <source>https://github.com/takoi/xbmc-addon-keymap-config</source>
+        <source>https://github.com/tamland/xbmc-keymap-editor</source>
     </extension>
 </addon>
