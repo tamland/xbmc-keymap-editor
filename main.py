@@ -22,22 +22,38 @@ from editor import Editor
 from utils import tr
 
 
-def main():
-    ## load mappings ##
-    default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
-    userdata = xbmc.translatePath('special://userdata/keymaps')
-    gen_file = os.path.join(userdata, 'gen.xml')
+default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
+userdata = xbmc.translatePath('special://userdata/keymaps')
+gen_file = os.path.join(userdata, 'gen.xml')
 
+
+def setup_keymap_folder():
     if not os.path.exists(userdata):
         os.makedirs(userdata)
     else:
         #make sure there are no user defined keymaps
         for name in os.listdir(userdata):
-            if name.endswith('.xml'):
-                if name != os.path.basename(gen_file):
-                    src = os.path.join(userdata, name)
-                    dst = os.path.join(userdata, name + ".bak")
+            if name.endswith('.xml') and name != os.path.basename(gen_file):
+                src = os.path.join(userdata, name)
+                for i in xrange(100):
+                    dst = os.path.join(userdata, "%s.bak.%d" % (name, i))
+                    if os.path.exists(dst):
+                        continue
                     os.rename(src, dst)
+                    #successfully renamed
+                    break
+
+
+def main():
+    ## load mappings ##
+    try:
+        setup_keymap_folder()
+    except Exception:
+        traceback.print_exc()
+        utils.rpc('GUI.ShowNotification', title="Keymap Editor",
+            message="Failed to remove old keymap file", image='error')
+        return
+
     defaultkeymap = utils.read_keymap(default)
     userkeymap = []
     if os.path.exists(gen_file):
