@@ -14,6 +14,7 @@
 '''
 import os
 import sys
+import shutil
 import traceback
 import xbmc
 import utils
@@ -39,7 +40,7 @@ def setup_keymap_folder():
                     dst = os.path.join(userdata, "%s.bak.%d" % (name, i))
                     if os.path.exists(dst):
                         continue
-                    os.rename(src, dst)
+                    shutil.move(src, dst)
                     #successfully renamed
                     break
 
@@ -81,7 +82,7 @@ def main():
         elif idx == 2:
             # save
             if os.path.exists(gen_file):
-                os.rename(gen_file, gen_file + ".old")
+                shutil.copy(gen_file, gen_file + ".old")
             utils.write_keymap(userkeymap, gen_file)
             xbmc.executebuiltin("action(reloadkeymaps)")
             break
