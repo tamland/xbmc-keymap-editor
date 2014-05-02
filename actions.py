@@ -55,6 +55,13 @@ _actions = [
     "fullscreen"        , "Toggle Fullscreen",
     "aspectratio"       , "Change Aspect Ratio",
     "showvideomenu"     , "Go to DVD Video Menu",
+    "playercontrol(repeat)",     "Toggle Repeat",
+    "playercontrol(repeatone)",  "Repeat One",
+    "playercontrol(repeatall)",  "Repeat All",
+    "playercontrol(repeatoff)",  "Repeat Off",
+    "playercontrol(random)",     "Toggle Random",
+    "playercontrol(randomon)",   "Random On",
+    "playercontrol(randomoff)",  "Random Off",
   ]],
 
   ["Audio", [
