@@ -1,3 +1,6 @@
+[B]v0.9.6[/B]
+- Added reapeat and shuffle actions
+
 [B]v0.9.5[/B]
 - Fixed: script sometimes failing to remove old keymap files on Windows
 
