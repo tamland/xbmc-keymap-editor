@@ -273,6 +273,7 @@ _activate_window = [
   "smartplaylistrule"        , "Smart Playlist Rule",
   "shutdownmenu"             , "Shutdown Menu",
   "fullscreeninfo"           , "Fullscreen Info",
+  "subtitlesearch"           , "Subtitle Search",
   "weather"                  , "Weather",
   "screensaver"              , "Screensaver",
   "pictureinfo"              , "Picture Info",
