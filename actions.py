@@ -327,6 +327,8 @@ _activate_window = [
 
 _windows = [
   "global"                   , "Global",
+  "fullscreenvideo"          , "Fullscreen Video",
+  "fullscreenlivetv"         , "Fullscreen Live TV",
   "home"                     , "Home",
   "programs"                 , "Programs",
   "videos"                   , "Videos",
@@ -341,8 +343,6 @@ _windows = [
   "musicosd"                 , "Music OSD",
   "osdvideosettings"         , "Video OSD Settings",
   "osdaudiosettings"         , "Audio OSD Settings",
-  "fullscreenvideo"          , "Fullscreen Video",
-  "fullscreenlivetv"         , "Fullscreen Live TV",
   "visualisation"            , "Visualisation",
   "slideshow"                , "Slideshow"
 ]
