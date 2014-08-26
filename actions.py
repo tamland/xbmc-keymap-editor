@@ -170,6 +170,10 @@ _actions = [
   ]],
 
   ["Other", [
+    "updatelibrary(video)", "Update Video Library",
+    "updatelibrary(music)", "Update Music Library",
+    "cleanlibrary(video)",  "Clean Video Library",
+    "cleanlibrary(music)", "Clean Music Library",
     "codecinfo"         , "Show codec info",
     "screenshot"        , "Take screenshot",
     "reloadkeymaps"     , "Reload keymaps",
