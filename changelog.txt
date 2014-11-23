@@ -1,3 +1,7 @@
+[B]v1.0.8[/B]
+- Added new Helix PVR Window IDs
+- Added ability to remove key mappings
+
 [B]v0.9.7[/B]
 - Added UpdateLibrary and CleanLibrary actions
 
