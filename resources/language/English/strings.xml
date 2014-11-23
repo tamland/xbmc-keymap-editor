@@ -11,5 +11,7 @@
     <string id="30008">Select action category</string>
     <string id="30009">Select the action to assign a key</string>
     <string id="30010">Timeout in %.0f seconds...</string>
+    <string id="30011">Edit key</string>
+    <string id="30012">Remove</string>
 </strings>
 

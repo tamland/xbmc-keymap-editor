@@ -30,35 +30,50 @@ class Editor(object):
 
     def start(self):
         while True:
+            # Select context menu
             idx = Dialog().select(tr(30007), WINDOWS.values())
             if idx == -1:
                 break
             window = WINDOWS.keys()[idx]
 
             while True:
+                # Select category menu
                 idx = Dialog().select(tr(30008), ACTIONS.keys())
                 if idx == -1:
                     break
                 category = ACTIONS.keys()[idx]
 
                 while True:
-                    curr_keymap = self._current_keymap(window, category)
-                    labels = ["%s - %s" % (name, key) for _, key, name in curr_keymap]
+                    # Select action menu
+                    current_keymap = self._current_keymap(window, category)
+                    labels = ["%s - %s" % (name, key) for _, key, name in current_keymap]
                     idx = Dialog().select(tr(30009), labels)
                     if idx == -1:
                         break
-                    action, oldkey, _ = curr_keymap[idx]
-                    newkey = KeyListener.record_key()
-                    if newkey is None:
-                        continue
+                    action, current_key, _ = current_keymap[idx]
+                    old_mapping = (window, action, current_key)
 
-                    old = (window, action, oldkey)
-                    new = (window, action, newkey)
-                    if old in self.userkeymap:
-                        self.userkeymap.remove(old)
-                    self.userkeymap.append(new)
-                    if old != new:
-                        self.dirty = True
+                    # Ask what to do
+                    idx = Dialog().select(tr(30000), [tr(30011), tr(30012)])
+                    if idx == -1:
+                        continue
+                    elif idx == 1:
+                        # Remove
+                        if old_mapping in self.userkeymap:
+                            self.userkeymap.remove(old_mapping)
+                            self.dirty = True
+                    elif idx == 0:
+                        # Edit key
+                        newkey = KeyListener.record_key()
+                        if newkey is None:
+                            continue
+
+                        new_mapping = (window, action, newkey)
+                        if old_mapping in self.userkeymap:
+                            self.userkeymap.remove(old_mapping)
+                        self.userkeymap.append(new_mapping)
+                        if old_mapping != new_mapping:
+                            self.dirty = True
 
     def _current_keymap(self, window, category):
         actions = OrderedDict([(action, "") for action in ACTIONS[category].keys()])
