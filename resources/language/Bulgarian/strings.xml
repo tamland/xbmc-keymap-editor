@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+    <string id="30000">Keymap Editor</string>
+    <string id="30001"></string>
+    <string id="30002">Натиснете бутона, който желаете да ползвате</string>
+    <string id="30003">Редактиране</string>
+    <string id="30004">Нулиране на настройките</string>
+    <string id="30005">Записване</string>
+    <string id="30006">Желаете ли да се откажете от промените?</string>
+    <string id="30007">Избор на прозорец</string>
+    <string id="30008">Избор на категория от действия</string>
+    <string id="30009">Избор на действие към което да назначите бутон</string>
+    <string id="30010">Остават %.0f секунди...</string>
+    <string id="30011">Редактирай бутона</string>
+    <string id="30012">Премахни</string>
+</strings>
+
