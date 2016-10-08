@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+    <string id="30000">Keymap Editor</string>
+    <string id="30001"></string>
+    <string id="30002">Druk de knop in die je wilt instellen</string>
+    <string id="30003">Bewerk</string>
+    <string id="30004">Terug naar standaard instellingen</string>
+    <string id="30005">Opslaan</string>
+    <string id="30006">Wijzigingen annuleren?</string>
+    <string id="30007">Selecter Window om koppelingen te beheren</string>
+    <string id="30008">Selecteer een actie categorie</string>
+    <string id="30009">Selecter de actie voor de knop</string>
+    <string id="30010">Timeout in %.0f seconden...</string>
+    <string id="30011">Wijzig sleutel</string>
+    <string id="30012">Verwijder</string>
+</strings>
