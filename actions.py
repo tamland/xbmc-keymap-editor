@@ -32,6 +32,7 @@ _actions = [
     "previousmenu"      , "Previous Menu",
     "info"              , "Show Info",
     "contextmenu"       , "Context Menu",
+    "menu"              , "Menu",    
     "firstpage"         , "First Page",
     "lastpage"          , "Last Page",
     "nextletter"        , "Next Letter",
