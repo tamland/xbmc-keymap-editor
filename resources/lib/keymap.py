@@ -19,33 +19,22 @@ import os
 import sys
 import shutil
 import traceback
-import xbmc
-import utils
-from xbmcgui import Dialog
-from editor import Editor
-from utils import tr
+from kodi_six import xbmc
+import resources.lib.utils as utils
+from kodi_six.xbmcgui import Dialog
+from resources.lib.editor import Editor
+from resources.lib.utils import tr
 
 
 default = xbmc.translatePath('special://xbmc/system/keymaps/keyboard.xml')
 userdata = xbmc.translatePath('special://userdata/keymaps')
 gen_file = os.path.join(userdata, 'gen.xml')
 
+KODIMONITOR = xbmc.Monitor()
 
 def setup_keymap_folder():
     if not os.path.exists(userdata):
         os.makedirs(userdata)
-    else:
-        #make sure there are no user defined keymaps
-        for name in os.listdir(userdata):
-            if name.endswith('.xml') and name != os.path.basename(gen_file):
-                src = os.path.join(userdata, name)
-                for i in xrange(100):
-                    dst = os.path.join(userdata, "%s.bak.%d" % (name, i))
-                    if os.path.exists(dst):
-                        continue
-                    shutil.move(src, dst)
-                    #successfully renamed
-                    break
 
 
 def main():
@@ -54,8 +43,8 @@ def main():
         setup_keymap_folder()
     except Exception:
         traceback.print_exc()
-        utils.rpc('GUI.ShowNotification', title="Keymap Editor",
-            message="Failed to remove old keymap file", image='error')
+        utils.rpc('GUI.ShowNotification', title=tr(30000),
+            message=tr(30001), image='error')
         return
 
     defaultkeymap = utils.read_keymap(default)
@@ -71,7 +60,7 @@ def main():
 
     ## main loop ##
     confirm_discard = False
-    while True:
+    while not KODIMONITOR.abortRequested():
         idx = Dialog().select(tr(30000), [tr(30003), tr(30004), tr(30005)])
         if idx == 0:
             # edit
@@ -83,6 +72,17 @@ def main():
             confirm_discard = bool(userkeymap)
             userkeymap = []
         elif idx == 2:
+            #backup any user defined keymaps
+            for name in os.listdir(userdata):
+                if name.endswith('.xml') and name != os.path.basename(gen_file):
+                    src = os.path.join(userdata, name)
+                    for i in range(100):
+                        dst = os.path.join(userdata, "%s.bak.%d" % (name, i))
+                        if os.path.exists(dst):
+                            continue
+                        shutil.move(src, dst)
+                        #successfully renamed
+                        break
             # save
             if os.path.exists(gen_file):
                 shutil.copyfile(gen_file, gen_file + ".old")
@@ -94,8 +94,3 @@ def main():
                 break
         else:
             break
-
-    sys.modules.clear()
-
-if __name__ == "__main__":
-    main()

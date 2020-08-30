@@ -15,36 +15,38 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import xbmcaddon
+from kodi_six import xbmc, xbmcaddon
 from threading import Timer
-from collections_backport import OrderedDict
-from xbmcgui import Dialog, WindowXMLDialog
-from actions import ACTIONS, WINDOWS
-from utils import tr
+from collections import OrderedDict
+from kodi_six.xbmcgui import Dialog, WindowXMLDialog
+from resources.lib.actions import ACTIONS, WINDOWS
+from resources.lib.utils import tr
 
+KODIMONITOR = xbmc.Monitor()
 
 class Editor(object):
     def __init__(self, defaultkeymap, userkeymap):
+        """Create the editor object."""
         self.defaultkeymap = defaultkeymap
         self.userkeymap = userkeymap
         self.dirty = False
 
     def start(self):
-        while True:
+        while not KODIMONITOR.abortRequested():
             # Select context menu
-            idx = Dialog().select(tr(30007), WINDOWS.values())
+            idx = Dialog().select(tr(30007), list(WINDOWS.values()))
             if idx == -1:
                 break
-            window = WINDOWS.keys()[idx]
+            window = list(WINDOWS.keys())[idx]
 
-            while True:
+            while not KODIMONITOR.abortRequested():
                 # Select category menu
-                idx = Dialog().select(tr(30008), ACTIONS.keys())
+                idx = Dialog().select(tr(30008), list(ACTIONS.keys()))
                 if idx == -1:
                     break
-                category = ACTIONS.keys()[idx]
+                category = list(ACTIONS.keys())[idx]
 
-                while True:
+                while not KODIMONITOR.abortRequested():
                     # Select action menu
                     current_keymap = self._current_keymap(window, category)
                     labels = ["%s - %s" % (name, key) for _, key, name in current_keymap]
@@ -87,7 +89,7 @@ class Editor(object):
                 if a in actions.keys():
                     actions[a] = k
         names = ACTIONS[category]
-        return [(action, key, names[action]) for action, key in actions.iteritems()]
+        return [(action, key, names[action]) for action, key in actions.items()]
 
 
 class KeyListener(WindowXMLDialog):
@@ -99,6 +101,7 @@ class KeyListener(WindowXMLDialog):
         return super(KeyListener, cls).__new__(cls, file_name, "")
 
     def __init__(self):
+        """Initialize key variable."""
         self.key = None
 
     def onInit(self):
