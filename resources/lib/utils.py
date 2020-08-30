@@ -15,10 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as ET
+import xml.etree.ElementTree as UET
 import json
-import xbmc
-import xbmcaddon
+from kodi_six import xbmc
+from kodi_six import xbmcaddon
 
 tr = xbmcaddon.Addon().getLocalizedString
 
@@ -44,7 +45,7 @@ def read_keymap(filename):
 def write_keymap(keymap, filename):
     contexts = list(set([c for c, a, k in keymap]))
 
-    builder = ET.TreeBuilder()
+    builder = UET.TreeBuilder()
     builder.start("keymap", {})
     for context in contexts:
         builder.start(context, {})
@@ -58,4 +59,4 @@ def write_keymap(keymap, filename):
         builder.end(context)
     builder.end("keymap")
     element = builder.close()
-    ET.ElementTree(element).write(filename, 'utf-8')
+    UET.ElementTree(element).write(filename, 'utf-8')
